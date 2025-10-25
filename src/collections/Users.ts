@@ -25,10 +25,7 @@ export const Users: CollectionConfig = {
           fields: [
             {
               name: 'profileImage',
-              labels: {
-                singular: 'Profilbild',
-                plural: 'Profilbilder',
-              },
+              labels: 'Profilbild',
               type: 'upload',
               relationTo: 'media',
               required: false,
