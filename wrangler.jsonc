@@ -18,7 +18,7 @@
   "d1_databases": [
     {
       "binding": "D1",
-      "database_id": "284d4a84-86e8-4857-a9cd-7ac0f75a811d",
+      "database_id": "42263a29-e102-485b-847f-8ac892b9a0f0",
       "database_name": "valhalla-db",
       "remote": true,
     },
@@ -33,7 +33,8 @@
   "r2_buckets": [
     {
       "binding": "R2",
-      "bucket_name": "valhalla-bucket","preview_bucket_name": "valhalla-bucket",
+      "bucket_name": "valhalla-bucket",
+      "preview_bucket_name": "valhalla-bucket",
     },
     // Create a R2 binding with the binding name "NEXT_INC_CACHE_R2_BUCKET"
     // {
