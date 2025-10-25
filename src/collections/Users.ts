@@ -25,11 +25,13 @@ export const Users: CollectionConfig = {
           fields: [
             {
               name: 'profileImage',
-              labels: 'Profilbild',
+              label: 'Profilbild',
               type: 'upload',
               relationTo: 'media',
               required: false,
-              position: 'sidebar',
+              admin: {
+                position: 'sidebar',
+              },
             },
             {
               name: 'universityId',
