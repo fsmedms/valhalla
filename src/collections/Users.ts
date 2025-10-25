@@ -24,6 +24,17 @@ export const Users: CollectionConfig = {
           label: 'Allgemein',
           fields: [
             {
+              name: 'profileImage',
+              labels: {
+                singular: 'Profilbild',
+                plural: 'Profilbilder',
+              },
+              type: 'upload',
+              relationTo: 'media',
+              required: false,
+              position: 'sidebar',
+            },
+            {
               name: 'universityId',
               label: 'Uni-Kennung',
               type: 'text',

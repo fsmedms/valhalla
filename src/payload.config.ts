@@ -32,6 +32,12 @@ export default buildConfig({
     importMap: {
       baseDir: path.resolve(dirname),
     },
+    components: {
+      graphics: {
+        Icon: '/components/Logo',
+        Logo: '/components/Logo',
+      },
+    },
   },
   collections: [
     Users,
@@ -47,9 +53,8 @@ export default buildConfig({
     defaultLocale: 'de',
   },
   i18n: {
-    translations: {
-      de,
-    },
+    supportedLanguages: { de },
+    fallbackLanguage: 'de',
   },
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
