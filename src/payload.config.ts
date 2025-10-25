@@ -15,6 +15,7 @@ import { de } from '@payloadcms/translations/languages/de'
 import { SpecialPositions } from './collections/SpecialPositions'
 import { HoPositions } from './collections/HoPositions'
 import { Projects } from './collections/Projects'
+import { Cohorts } from './collections/Cohorts'
 import { Media } from './collections/Media'
 
 const filename = fileURLToPath(import.meta.url)
@@ -47,6 +48,7 @@ export default buildConfig({
     SpecialPositions,
     HoPositions,
     Projects,
+    Cohorts,
   ],
   localization: {
     locales: ['de'],

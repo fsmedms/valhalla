@@ -74,6 +74,7 @@ export interface Config {
     specialPositions: SpecialPosition;
     hoPositions: HoPosition;
     projects: Project;
+    cohorts: Cohort;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -91,6 +92,7 @@ export interface Config {
     specialPositions: SpecialPositionsSelect<false> | SpecialPositionsSelect<true>;
     hoPositions: HoPositionsSelect<false> | HoPositionsSelect<true>;
     projects: ProjectsSelect<false> | ProjectsSelect<true>;
+    cohorts: CohortsSelect<false> | CohortsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -140,12 +142,15 @@ export interface User {
   firstName: string;
   displayName: string;
   nickname: string;
+  cohort?: (number | null) | Cohort;
+  comment?: string | null;
   address?: string | null;
   phoneNumber?: string | null;
   roles?:
     | (
         | {
             position: number | FsrPosition;
+            comment?: string | null;
             startDate: string;
             endDate?: string | null;
             statusControl: 'forceActive' | 'forceInactive' | 'automatic';
@@ -229,6 +234,16 @@ export interface Media {
   filesize?: number | null;
   width?: number | null;
   height?: number | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "cohorts".
+ */
+export interface Cohort {
+  id: number;
+  name: string;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -320,6 +335,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'projects';
         value: number | Project;
+      } | null)
+    | ({
+        relationTo: 'cohorts';
+        value: number | Cohort;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -375,6 +394,8 @@ export interface UsersSelect<T extends boolean = true> {
   firstName?: T;
   displayName?: T;
   nickname?: T;
+  cohort?: T;
+  comment?: T;
   address?: T;
   phoneNumber?: T;
   roles?:
@@ -384,6 +405,7 @@ export interface UsersSelect<T extends boolean = true> {
           | T
           | {
               position?: T;
+              comment?: T;
               startDate?: T;
               endDate?: T;
               statusControl?: T;
@@ -511,6 +533,15 @@ export interface HoPositionsSelect<T extends boolean = true> {
  * via the `definition` "projects_select".
  */
 export interface ProjectsSelect<T extends boolean = true> {
+  name?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "cohorts_select".
+ */
+export interface CohortsSelect<T extends boolean = true> {
   name?: T;
   updatedAt?: T;
   createdAt?: T;

@@ -82,6 +82,19 @@ export const Users: CollectionConfig = {
               type: 'text',
               required: true,
             },
+            {
+              name: 'cohort',
+              label: 'Kohorte',
+              type: 'relationship',
+              relationTo: 'cohorts',
+              required: false, // Temporarily optional to migrate existing data
+            },
+            {
+              name: 'comment',
+              label: 'Kommentar',
+              type: 'textarea',
+              required: false,
+            },
           ],
         },
         {

@@ -15,6 +15,12 @@ const FSRMembershipBlock: Block = {
       relationTo: 'fsrPositions',
       required: true,
     },
+    {
+      name: 'comment',
+      label: 'Kommentar',
+      type: 'textarea',
+      required: false,
+    },
     ...dateFields,
   ],
   admin: {
