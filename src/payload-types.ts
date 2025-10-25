@@ -136,7 +136,7 @@ export interface UserAuthOperations {
 export interface User {
   id: number;
   profileImage?: (number | null) | Media;
-  universityId?: string | null;
+  universityId: string;
   universityEmail?: string | null;
   lastName: string;
   firstName: string;
@@ -190,6 +190,7 @@ export interface User {
             blockType: 'hoPoliticianBlock';
           }
         | {
+            project: number | Project;
             startDate: string;
             endDate?: string | null;
             statusControl: 'forceActive' | 'forceInactive' | 'automatic';
@@ -449,6 +450,7 @@ export interface UsersSelect<T extends boolean = true> {
         projectMembershipBlock?:
           | T
           | {
+              project?: T;
               startDate?: T;
               endDate?: T;
               statusControl?: T;

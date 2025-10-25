@@ -12,6 +12,7 @@ export const Projects: CollectionConfig = {
   fields: [
     {
       name: 'name',
+      label: 'Name',
       type: 'text',
       required: true,
     },

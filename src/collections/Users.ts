@@ -37,7 +37,7 @@ export const Users: CollectionConfig = {
               name: 'universityId',
               label: 'Uni-Kennung',
               type: 'text',
-              required: false,
+              required: true,
               unique: true,
             },
             {
@@ -87,7 +87,7 @@ export const Users: CollectionConfig = {
               label: 'Kohorte',
               type: 'relationship',
               relationTo: 'cohorts',
-              required: false, // Temporarily optional to migrate existing data
+              required: false,
             },
             {
               name: 'comment',

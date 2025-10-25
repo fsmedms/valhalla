@@ -13,11 +13,13 @@ export const FSRPositions: CollectionConfig = {
   fields: [
     {
       name: 'name',
+      label: 'Name des Postens',
       type: 'text',
       required: true,
     },
     {
       name: 'department',
+      label: 'Referat',
       type: 'relationship',
       relationTo: 'fsrDepartments',
       required: true,

@@ -7,7 +7,16 @@ const ProjectMemberShipBlock: Block = {
     singular: 'Projektmitgliedschaft',
     plural: 'Projektmitgliedschaften',
   },
-  fields: [...dateFields],
+  fields: [
+    {
+      name: 'project',
+      label: 'Projekt',
+      relationTo: 'projects',
+      type: 'relationship',
+      required: true,
+    },
+    ...dateFields,
+  ],
   admin: {
     disableBlockName: true,
   },

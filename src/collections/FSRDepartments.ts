@@ -12,11 +12,13 @@ export const FSRDepartments: CollectionConfig = {
   fields: [
     {
       name: 'name',
+      label: 'Name des Referats',
       type: 'text',
       required: true,
     },
     {
       name: 'positions',
+      label: 'Positionen',
       type: 'join',
       collection: 'fsrPositions',
       on: 'department',

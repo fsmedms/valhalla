@@ -13,6 +13,7 @@ export const HoPositions: CollectionConfig = {
   fields: [
     {
       name: 'name',
+      label: 'Name des Postens',
       type: 'text',
       required: true,
     },

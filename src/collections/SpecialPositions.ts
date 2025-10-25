@@ -13,6 +13,7 @@ export const SpecialPositions: CollectionConfig = {
   fields: [
     {
       name: 'name',
+      label: 'Name',
       type: 'text',
       required: true,
     },
