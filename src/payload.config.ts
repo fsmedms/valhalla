@@ -9,6 +9,12 @@ import { GetPlatformProxyOptions } from 'wrangler'
 import { r2Storage } from '@payloadcms/storage-r2'
 
 import { Users } from './collections/Users'
+import { FSRPositions } from './collections/FSRPositions'
+import { FSRDepartments } from './collections/FSRDepartments'
+import { de } from '@payloadcms/translations/languages/de'
+import { SpecialPositions } from './collections/SpecialPositions'
+import { HoPositions } from './collections/HoPositions'
+import { Projects } from './collections/Projects'
 import { Media } from './collections/Media'
 
 const filename = fileURLToPath(import.meta.url)
@@ -27,7 +33,24 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media],
+  collections: [
+    Users,
+    Media,
+    FSRPositions,
+    FSRDepartments,
+    SpecialPositions,
+    HoPositions,
+    Projects,
+  ],
+  localization: {
+    locales: ['de'],
+    defaultLocale: 'de',
+  },
+  i18n: {
+    translations: {
+      de,
+    },
+  },
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {

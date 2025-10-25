@@ -69,14 +69,28 @@ export interface Config {
   collections: {
     users: User;
     media: Media;
+    fsrPositions: FsrPosition;
+    fsrDepartments: FsrDepartment;
+    specialPositions: SpecialPosition;
+    hoPositions: HoPosition;
+    projects: Project;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
-  collectionsJoins: {};
+  collectionsJoins: {
+    fsrDepartments: {
+      positions: 'fsrPositions';
+    };
+  };
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
+    fsrPositions: FsrPositionsSelect<false> | FsrPositionsSelect<true>;
+    fsrDepartments: FsrDepartmentsSelect<false> | FsrDepartmentsSelect<true>;
+    specialPositions: SpecialPositionsSelect<false> | SpecialPositionsSelect<true>;
+    hoPositions: HoPositionsSelect<false> | HoPositionsSelect<true>;
+    projects: ProjectsSelect<false> | ProjectsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -86,7 +100,7 @@ export interface Config {
   };
   globals: {};
   globalsSelect: {};
-  locale: null;
+  locale: 'de';
   user: User & {
     collection: 'users';
   };
@@ -119,6 +133,67 @@ export interface UserAuthOperations {
  */
 export interface User {
   id: number;
+  universityId?: string | null;
+  universityEmail?: string | null;
+  lastName: string;
+  firstName: string;
+  displayName: string;
+  nickname: string;
+  address?: string | null;
+  phoneNumber?: string | null;
+  roles?:
+    | (
+        | {
+            position: number | FsrPosition;
+            startDate: string;
+            endDate?: string | null;
+            statusControl: 'forceActive' | 'forceInactive' | 'automatic';
+            isActive: boolean;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'fsrMembershipBlock';
+          }
+        | {
+            position?: ('president' | 'member') | null;
+            startDate: string;
+            endDate?: string | null;
+            statusControl: 'forceActive' | 'forceInactive' | 'automatic';
+            isActive: boolean;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'fsvMembershipBlock';
+          }
+        | {
+            position: number | SpecialPosition;
+            startDate: string;
+            endDate?: string | null;
+            statusControl: 'forceActive' | 'forceInactive' | 'automatic';
+            isActive: boolean;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'specialAgentBlock';
+          }
+        | {
+            positions: number | HoPosition;
+            startDate: string;
+            endDate?: string | null;
+            statusControl: 'forceActive' | 'forceInactive' | 'automatic';
+            isActive: boolean;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'hoPoliticianBlock';
+          }
+        | {
+            startDate: string;
+            endDate?: string | null;
+            statusControl: 'forceActive' | 'forceInactive' | 'automatic';
+            isActive: boolean;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'projectMembershipBlock';
+          }
+      )[]
+    | null;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -139,6 +214,52 @@ export interface User {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "fsrPositions".
+ */
+export interface FsrPosition {
+  id: number;
+  name: string;
+  department: number | FsrDepartment;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "fsrDepartments".
+ */
+export interface FsrDepartment {
+  id: number;
+  name: string;
+  positions: {
+    docs?: (number | FsrPosition)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "specialPositions".
+ */
+export interface SpecialPosition {
+  id: number;
+  name: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "hoPositions".
+ */
+export interface HoPosition {
+  id: number;
+  name: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "media".
  */
 export interface Media {
@@ -156,6 +277,16 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "projects".
+ */
+export interface Project {
+  id: number;
+  name: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
@@ -168,6 +299,26 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'media';
         value: number | Media;
+      } | null)
+    | ({
+        relationTo: 'fsrPositions';
+        value: number | FsrPosition;
+      } | null)
+    | ({
+        relationTo: 'fsrDepartments';
+        value: number | FsrDepartment;
+      } | null)
+    | ({
+        relationTo: 'specialPositions';
+        value: number | SpecialPosition;
+      } | null)
+    | ({
+        relationTo: 'hoPositions';
+        value: number | HoPosition;
+      } | null)
+    | ({
+        relationTo: 'projects';
+        value: number | Project;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -216,6 +367,72 @@ export interface PayloadMigration {
  * via the `definition` "users_select".
  */
 export interface UsersSelect<T extends boolean = true> {
+  universityId?: T;
+  universityEmail?: T;
+  lastName?: T;
+  firstName?: T;
+  displayName?: T;
+  nickname?: T;
+  address?: T;
+  phoneNumber?: T;
+  roles?:
+    | T
+    | {
+        fsrMembershipBlock?:
+          | T
+          | {
+              position?: T;
+              startDate?: T;
+              endDate?: T;
+              statusControl?: T;
+              isActive?: T;
+              id?: T;
+              blockName?: T;
+            };
+        fsvMembershipBlock?:
+          | T
+          | {
+              position?: T;
+              startDate?: T;
+              endDate?: T;
+              statusControl?: T;
+              isActive?: T;
+              id?: T;
+              blockName?: T;
+            };
+        specialAgentBlock?:
+          | T
+          | {
+              position?: T;
+              startDate?: T;
+              endDate?: T;
+              statusControl?: T;
+              isActive?: T;
+              id?: T;
+              blockName?: T;
+            };
+        hoPoliticianBlock?:
+          | T
+          | {
+              positions?: T;
+              startDate?: T;
+              endDate?: T;
+              statusControl?: T;
+              isActive?: T;
+              id?: T;
+              blockName?: T;
+            };
+        projectMembershipBlock?:
+          | T
+          | {
+              startDate?: T;
+              endDate?: T;
+              statusControl?: T;
+              isActive?: T;
+              id?: T;
+              blockName?: T;
+            };
+      };
   updatedAt?: T;
   createdAt?: T;
   email?: T;
@@ -248,6 +465,53 @@ export interface MediaSelect<T extends boolean = true> {
   filesize?: T;
   width?: T;
   height?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "fsrPositions_select".
+ */
+export interface FsrPositionsSelect<T extends boolean = true> {
+  name?: T;
+  department?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "fsrDepartments_select".
+ */
+export interface FsrDepartmentsSelect<T extends boolean = true> {
+  name?: T;
+  positions?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "specialPositions_select".
+ */
+export interface SpecialPositionsSelect<T extends boolean = true> {
+  name?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "hoPositions_select".
+ */
+export interface HoPositionsSelect<T extends boolean = true> {
+  name?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "projects_select".
+ */
+export interface ProjectsSelect<T extends boolean = true> {
+  name?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
